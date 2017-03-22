@@ -8,7 +8,7 @@ except ImportError:
 root_dir = '/home/zzy131250/civil/'
 dest_dir = '/home/zzy131250/referee_system/preprocess/case_list/'
 files = listdir(root_dir)
-case_txt = open(dest_dir + 'marriage_law_case.txt', 'wb')
+case_txt = open(dest_dir + 'road_traffic_case.txt', 'wb')
 
 # 婚姻法、合同法、民法通则、道理交通安全法
 for file in files:
@@ -17,7 +17,7 @@ for file in files:
         for attr in elem.attrib:
             if attr == 'value':
                 content = elem.attrib[attr]
-                if content.find(u'婚姻法') != -1:
-                    case_txt.write(file)
+                if content.find(u'道理交通安全法') != -1:
+                    case_txt.write(file + '\n')
 
 case_txt.close()
