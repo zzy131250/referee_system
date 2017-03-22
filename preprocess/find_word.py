@@ -10,13 +10,14 @@ dest_dir = '/home/zzy131250/referee_system/preprocess/case_list/'
 files = listdir(root_dir)
 case_txt = open(dest_dir + 'marriage_law_case.txt', 'wb')
 
+# 婚姻法、合同法、民法通则、道理交通安全法
 for file in files:
     tree = ET.ElementTree(file=root_dir + file)
     for elem in tree.iterfind('.//QW'):
         for attr in elem.attrib:
             if attr == 'value':
                 content = elem.attrib[attr]
-                if content.find(u'') != -1:
+                if content.find(u'婚姻法') != -1:
                     case_txt.write(file)
 
 case_txt.close()
