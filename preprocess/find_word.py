@@ -9,7 +9,7 @@ except ImportError:
 root_dir = u'C:\\Users\\J\\Desktop\\共享文书\\民事一审\\'
 dest_dir = 'C:\\Users\\J\\OneDrive\\Workspace\\PythonWorkspace\\referee_system\\preprocess\\case_list\\'
 files = listdir(root_dir)
-case_txt = open(dest_dir + 'traffic_safety_case.txt', 'wb')
+case_txt = open(dest_dir + 'not_withdrawal_case.txt', 'wb')
 
 # 婚姻法、合同法、民法通则、道路交通安全法
 for file in files:
@@ -18,6 +18,6 @@ for file in files:
         for attr in elem.attrib:
             if attr == 'value':
                 content = elem.attrib[attr]
-                if content.find(u'合同法') != -1:
+                if content.find(u'撤诉') == -1:
                     case_txt.write(file + '\n')
 case_txt.close()
