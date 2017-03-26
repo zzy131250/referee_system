@@ -10,8 +10,10 @@ from db_operation import Mongo
 
 file_list = 'case_list/not_withdrawal_case.txt'
 instrument_dir = u'C:\\Users\\J\\Desktop\\共享文书\\民事一审\\'
+
 mongo = Mongo()
 mongo.set_collection('instrument')
+
 with open(file_list, 'r') as files:
     for file in files:
         tree = ET.ElementTree(file=instrument_dir + file[:-1])
@@ -35,4 +37,4 @@ with open(file_list, 'r') as files:
                                     instrument['applicable'] = 'yes'
                                     instrument_array.append(instrument)
                     if instrument_array != []:
-                        mongo.insert_data(instrument_array)
+                        mongo.insert_many(instrument_array)
