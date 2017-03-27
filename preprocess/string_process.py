@@ -3,6 +3,7 @@ from db_operation import Mongo
 mongo = Mongo()
 mongo.set_collection('instrument')
 
+
 def modify_law_id(law):
     """
     去除法条书名号，去除款号和项号
@@ -61,3 +62,17 @@ def arabic_number_to_chn(number):
             return number_dict[number_str[0]] + u'百零' + number_dict[number_str[2]]
         else:
             return number_dict[number_str[0]] + u'百' + number_dict[number_str[1]] + u'十' + number_dict[number_str[2]]
+
+
+def modify_law_name(law):
+    """
+    去除法律名称中的书名号及后缀 
+    """
+    law = law.replace(u'《', '')
+    law = law.replace(u'》', '')
+    law = law.replace(u'〈', '')
+    law = law.replace(u'〉', '')
+    law = law.replace(u'﹤', '')
+    law = law.replace(u'﹥', '')
+    law = law[:law.find('.')]
+    return law
