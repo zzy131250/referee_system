@@ -18,8 +18,8 @@ class Mongo:
     def insert_many(self, data):
         self.collection.insert_many(data)
 
-    def find_data(self, condition):
-        return self.collection.find(condition)
+    def find_data(self, condition, no_cursor_timeout=False):
+        return self.collection.find(condition, no_cursor_timeout=no_cursor_timeout)
 
     def delete_by_id(self, id):
         self.collection.delete_one({'_id': ObjectId(id)})
