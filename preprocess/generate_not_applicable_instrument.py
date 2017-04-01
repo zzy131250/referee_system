@@ -11,7 +11,8 @@ not_applicable_instrument_array = []
 cursor = mongo_instrument.find_data({'applicable': 'yes'}, no_cursor_timeout=True)
 for instrument in cursor:
     not_applicable_instrument = {}
-    not_applicable_instrument['case'] = instrument['case']
+    not_applicable_instrument['case_id'] = instrument['case_id']
+    not_applicable_instrument['case_content'] = instrument['case_content']
     not_applicable_instrument['applicable'] = 'no'
     result = mongo_law.find_data({'law_id': instrument['law_id']})
     if result.count() == 1:
@@ -19,7 +20,7 @@ for instrument in cursor:
         # 查询前一条法条跟后一条法条是否也是适用的
         previous_also_applicable = False
         next_also_applicable = False
-        for ins in mongo_instrument.find_data({'case': instrument['case'], 'applicable': 'yes'}):
+        for ins in mongo_instrument.find_data({'case_id': instrument['case_id'], 'applicable': 'yes'}):
             if ins['law_id'] == similar_law['law_id_previous']: previous_also_applicable = True
             if ins['law_id'] == similar_law['law_id_next']: next_also_applicable = True
         law_previous = mongo_law.find_data({'law_id': similar_law['law_id_previous']})

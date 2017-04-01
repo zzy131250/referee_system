@@ -76,3 +76,49 @@ def modify_law_name(law):
     law = law.replace(u'﹥', '')
     law = law[:law.find('.')]
     return law
+
+
+def find_plaintiff_and_defendant_names(tree):
+    """
+    提取原告与被告名字
+    """
+    names = {}
+    names['plaintiff'] = []
+    names['defendant'] = []
+    for item in tree.iterfind('.//DSR'):
+        for attr in item.attrib:
+            if attr == 'value':
+                for people in item.attrib[attr].split(' '):
+                    # 处理原告
+                    if people.find(u'原告') == 0:
+                        if people.find(u'原告：') != -1:
+                            people = people[people.find(u'原告：')+3:]
+                            people = clean_people_name(people)
+                            names['plaintiff'].append(people)
+                        else:
+                            people = people[people.find(u'原告')+2:]
+                            people = clean_people_name(people)
+                            names['plaintiff'].append(people)
+                    # 处理被告
+                    if people.find(u'被告') == 0:
+                        if people.find(u'被告：') != -1:
+                            people = people[people.find(u'被告：')+3:]
+                            people = clean_people_name(people)
+                            names['defendant'].append(people)
+                        else:
+                            people = people[people.find(u'被告')+2:]
+                            people = clean_people_name(people)
+                            names['defendant'].append(people)
+    return names
+
+
+def clean_people_name(people):
+    """
+    清理人名中的标点
+    """
+    if people.find(u'，') != -1: people = people[:people.find(u'，')]
+    if people.find(u'。') != -1: people = people[:people.find(u'。')]
+    if people.find(u'；') != -1: people = people[:people.find(u'；')]
+    if people.find(u'（') != -1 and people.endswith(u'）'): people = people[:people.find(u'（')]
+    if people.find(u'）') != -1 and people.startswith(u'（'): people = people[people.find(u'）')+1:]
+    return people
