@@ -7,6 +7,7 @@ sys.path.append('../')
 from db_operation import Mongo
 
 file_list = '../case_list/not_withdrawal_case.txt'
+analyse.set_stop_words()
 tr = analyse.textrank
 mongo = Mongo()
 mongo.set_collection('instrument')
@@ -19,6 +20,6 @@ with open(file_list, 'r') as cases:
         for case in mongo.find_data({'case_id': case_id[:-1]}):
             case_item['keyword'] = tr(case['case_content'])
             break
-        case_list.append(case_item)
-print len(case_list)
+        if 'keyword' in case_item: case_list.append(case_item)
+print len(case_list) # 6750
 pickle.dump(case_list, open('keyword_case.pkl', 'w'))

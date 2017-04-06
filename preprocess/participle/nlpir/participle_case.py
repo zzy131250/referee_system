@@ -19,7 +19,7 @@ with open(file_list, 'r') as cases:
         for case in mongo.find_data({'case_id': case_id[:-1]}):
             case_item['participle'] = pynlpir.segment(case['case_content'])
             break
-        case_list.append(case_item)
+        if 'participle' in case_item: case_list.append(case_item)
 pynlpir.close()
-print len(case_list) # 8141
+print len(case_list)
 pickle.dump(case_list, open('participle_case.pkl', 'w'))

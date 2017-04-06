@@ -20,6 +20,6 @@ with open(file_list, 'r') as cases:
             for word, flag in pseg.cut(case['case_content']):
                 case_item['participle'].append((word, flag))
             break
-        case_list.append(case_item)
-print len(case_list) # 8141
+        if case_item['participle'] != []: case_list.append(case_item)
+print len(case_list)
 pickle.dump(case_list, open('participle_case.pkl', 'w'))
