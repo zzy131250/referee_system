@@ -7,7 +7,7 @@ sys.path.append('../')
 from db_operation import Mongo
 
 file_list = '../case_list/not_withdrawal_case.txt'
-analyse.set_stop_words()
+analyse.set_stop_words('../stop_words.txt')
 tr = analyse.textrank
 mongo = Mongo()
 mongo.set_collection('instrument')

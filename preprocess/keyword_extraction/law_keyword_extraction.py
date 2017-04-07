@@ -6,6 +6,7 @@ from jieba import analyse
 sys.path.append('../')
 from db_operation import Mongo
 
+analyse.set_stop_words('../stop_words.txt')
 tr = analyse.textrank
 mongo = Mongo()
 mongo.set_collection('law')
