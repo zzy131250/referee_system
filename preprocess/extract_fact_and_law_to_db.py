@@ -32,7 +32,7 @@ with open(file_list, 'r') as files:
                         index = fact.find(name)
                         if fact[index-2:index] == u'被告': fact = fact.replace(name, '')
                         else: fact = fact.replace(name, u'被告')
-                    instrument_array = []
+                    instrument_list = []
                     # 提取法条编号
                     for elem in tree.iterfind('.//CUS_FLFT_RY'):
                         for at in elem.attrib:
@@ -46,6 +46,6 @@ with open(file_list, 'r') as files:
                                     instrument['case_content'] = fact
                                     instrument['law_id'] = law_id
                                     instrument['applicable'] = 'yes'
-                                    instrument_array.append(instrument)
-                    if instrument_array != []:
-                        mongo.insert_many(instrument_array)
+                                    instrument_list.append(instrument)
+                    if instrument_list != []:
+                        mongo.insert_many(instrument_list)
