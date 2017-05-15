@@ -25,11 +25,23 @@ for case in case_list:
                 similarity_item['case_id'] = case['case_id']
                 similarity_item['law_id'] = law['law_id']
                 similarity_item['similarity'] = []
+                # 增加平均值特征
+                similarity_all = []
                 for keyword_case in case['keyword']:
                     for keyword_law in law['keyword']:
+                        # 会有不在模型的词汇表中的情况
+                        if keyword_case in model.wv.vocab and keyword_law in model.wv.vocab:
+                            similarity_all.append(model.similarity(keyword_case, keyword_law))
+                if len(similarity_all) == 0: continue
+                similarity_item['similarity'].append(sum(similarity_all) / len(similarity_all))
+                case['keyword'] = [case['keyword'][0], case['keyword'][1], case['keyword'][2]]
+                law['keyword'] = [law['keyword'][0], law['keyword'][1], law['keyword'][2]]
+                for keyword_case in case['keyword']:
+                    for keyword_law in law['keyword']:
+                        # 会有不在模型的词汇表中的情况
                         if keyword_case in model.wv.vocab and keyword_law in model.wv.vocab:
                             similarity_item['similarity'].append(model.similarity(keyword_case, keyword_law))
-                similarity_item['similarity'].sort(reverse=True)
-                if len(similarity_item['similarity']) >= 10: keyword_similarity_list.append(similarity_item)
-print len(keyword_similarity_list) # 61822
+                # similarity_item['similarity'].sort(reverse=True)
+                if len(similarity_item['similarity']) >= 9: keyword_similarity_list.append(similarity_item)
+print len(keyword_similarity_list) # 49569
 pickle.dump(keyword_similarity_list, open('keyword_similarity.pkl', 'w'))

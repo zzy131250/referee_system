@@ -18,4 +18,9 @@ for case in case_list:
             if item['law_id'] == ins['law_id']:
                 print ' '.join(item['keyword'])
         break
+    for ins in mongo.find_data({'case_id': case['case_id'], 'applicable': 'no'}):
+        for item in law_list:
+            if item['law_id'] == ins['law_id']:
+                print ' '.join(item['keyword'])
+        break
     print
